@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Items{% endblock %}
+<div class="container-fluid">
+    <style>
+        body {background-color:#F5F5DC;}
+    </style>
+    <body>
+<!-- content -->
+{% block content %}
+{% from "_table_helper.html" import render_table %}
+{% set view = "admin.view_item" %}
+{% set edit = "admin.edit_item" %}
+{% set delete = "admin.delete_item" %}
+{{render_table("Items", rows, ["user_id"], view, edit, delete)}}
+{% endblock %}
+    </body>
+</div>
+
+

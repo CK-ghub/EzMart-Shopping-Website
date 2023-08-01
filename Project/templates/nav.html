@@ -1,0 +1,90 @@
+{% from "_dropdown_nav.html" import dropdown_nav %}
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+    <div class="container-fluid">
+        <body>
+        <style>
+            .cart {
+                position: relative;
+                height:25px;
+                width:32px;
+            }
+            .order {
+                position: relative;
+                height:25px;
+                width:22px;
+            }
+            body {background-image:url({{url_for('static', filename='supermarket_blur.jpg')}});
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position:50% 40%;
+            background-size: cover;}
+        </style>
+        <a class="navbar-brand" href="../">EzMart</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                {% if not current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('auth.login')}}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('auth.register')}}">Signup</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('auth.landing_page')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('shop.shop_list')}}">Shop</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('auth.profile')}}">Profile</a>
+                </li>
+                <!-- roles nav (requires admin )-->
+                {% if current_user.has_role("Admin") %}
+                {% set roles = [
+                ("roles.add", "Add"),
+                ("roles.list", "List"),
+                ("roles.assign", "Assign")
+                ] %}
+                {{dropdown_nav("Roles", roles)}}
+                {% endif %}
+                {% if current_user.has_role("Admin") %}
+                {% set admin = [
+                ("admin.add_item", "Add Item"),
+                ("admin.view_items", "List Items"),
+                ("admin.orders","View Orders"),
+                ] %}
+                {{dropdown_nav("Admin", admin)}}
+                {% elif current_user.has_role("Store Owner") %}
+                {% set admin = [
+                ("admin.add_item", "Add Item"),
+                ("admin.view_items", "List Items"),
+                ("admin.orders","View Orders"),
+                ] %}
+                {{dropdown_nav("Owner", admin)}}
+                {% endif %}
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('shop.cart')}}">Cart <img src="{{url_for('static', filename='carticon.png')}}"
+                        alt="Cart image" class="cart">({{cart_total()}})</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('shop.orders')}}">Orders <img src="{{url_for('static', filename='order-icon.png')}}"
+                        alt="orders image" class="order"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('auth.logout')}}">Logout</a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </body>
+    </div>
+</nav>

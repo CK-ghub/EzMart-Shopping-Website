@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block title %}Payment{% endblock %}
+
+{% block content %}
+<style>
+    .bar {
+        position: relative;
+        height: 8px;
+        background: #6a6a6a;
+        width:  0%;
+        top: 0px;
+        left: 18px;
+        margin-top: 8px;
+        box-shadow: 0 0 3px rgba(192,192,192,0.9);
+        animation: fill 1s infinite, colors 2s infinite;
+        
+    }
+    
+    .bar.fill1 {
+        animation:  fill-1 1s infinite, colors 2s;
+        animation-fill-mode: forwards;
+        animation-iteration-count: 1;
+        
+    }
+
+    @keyframes fill-1 {
+        0%   { top:0%; width: 520px; background-color:#F5F5DC; opacity:0.5;}
+        100% { top:50%; width: 520px; opacity:1;}
+      }
+    .image {
+        height:300px;
+        width:370px;
+    }
+    body {background-color:#F5F5DC;}
+    .center{
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        background-color:white;
+        border-radius: 25px;
+        height:800px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        padding: 2px;
+        line-height: 30px;
+    }
+</style>
+<div class="container-fluid bar fill1 center"><center>
+    <br><br>
+    <form class="form-group mb-3 align-items-center" action="{{url_for('shop.place_order')}}"
+            method="POST" style="width:23rem;">
+        <div class="col-12 text-center">
+            <label for="total">Amount to be paid</label>
+            <input type="text" name="total" class="form-control" id="total" placeholder="0" readonly
+                value="{{request.form.get('total') or form.get('money_received') or ''}}">
+        </div>
+        <br>
+        <div class="col-12 text-center">
+            <label for="money_received">Enter Payment Amount</label>
+            <input type="text" name="money_received" class="form-control" id="money_received" placeholder="Enter Amount"
+                value="{{request.form.get('money_received') or form.get('money_received') or ''}}">
+        </div><br><br>
+        <div class="col-12 text-center">
+            <input type="submit" value="Pay" class="btn btn-danger btn-sm" />
+        </div>
+        <input type="hidden" name="fname" value="{{request.form.get('fname') or form.get('fname') or ''}}" />
+        <input type="hidden" name="lname" value="{{request.form.get('lname') or form.get('lname') or ''}}" />
+        <input type="hidden" name="address" value="{{request.form.get('address') or form.get('address') or ''}}" />
+        <input type="hidden" name="payment" value="{{request.form.get('payment') or form.get('payment') or ''}}" />
+        <br><br>
+        <img src="{{url_for('static', filename='payment.png')}}"
+                            alt="Payment image" class="image">
+    </form>
+</div>
+{% endblock %}

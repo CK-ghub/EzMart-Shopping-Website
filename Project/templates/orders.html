@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}Orders{% endblock %}
+
+<!-- content -->
+{% block content %}
+{% from "_order_history_table_helper.html" import render_table %}
+{% if current_user.has_role("Admin") or current_user.has_role("Store Owner") %}
+{% set view = "admin.order" %}
+{% else %}
+{% set view = "shop.order" %}
+{% endif %}
+{{render_table("Orders", rows, ["user_id"], view)}}
+{% endblock %}

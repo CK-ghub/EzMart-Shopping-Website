@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% from "_table_helper.html" import render_table %}
+{% block title %}Order Confirmation{% endblock %}
+
+<!-- content -->
+{% block content %}
+<style>
+    .bar {
+        position: relative;
+        height: 8px;
+        background: #6a6a6a;
+        width:  0%;
+        top: 0px;
+        left: 18px;
+        margin-top: 8px;
+        box-shadow: 0 0 3px rgba(192,192,192,0.9);
+        animation: fill 1s infinite, colors 2s infinite;
+        
+    }
+    
+    .bar.fill1 {
+        animation:  fill-1 1s infinite, colors 2s;
+        animation-fill-mode: forwards;
+        animation-iteration-count: 1;
+        
+    }
+
+    @keyframes fill-1 {
+        0%   { top:50%; width: 520px; background-color:#F5F5DC; opacity:0.5;}
+        100% { top:50%; width: 1520px; opacity:1;}
+      }
+    body {background-color:#F5F5DC;}
+    .center{
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        background-color:white;
+        border-radius: 25px;
+        height:auto;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        padding: 2px;
+        line-height: 30px;
+    }
+    
+</style>
+<br><br>
+<div class="container-fluid bar fill1 center">
+<div class="h2">Order Summary:</div>
+<div class="h3">Order Number #{{order['order_id']}}:</div>
+{{render_table("Shipping Address and Billing Details", order_info , [])}}
+<br>
+<br>
+{{render_table("Ordered Items", rows, ["user_id"])}}
+<div>Order Total: ${{order['total']}}</div>
+<br>
+<div class="h4">Thank you for ordering from us! :) Please wait for 5-7 business days for the package to get delivered! </div>
+{% endblock %}
